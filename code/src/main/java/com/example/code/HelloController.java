@@ -42,10 +42,8 @@ public class HelloController {
             int c = 0;
             while(rs.next()){
                 c = rs.getInt("C");
-                System.out.println(c);
             }
             if(c==0){
-                System.out.println("Mauvaise adresse");
                 loginText.setText("Cette adresse n'est pas enregistrée.");
             }else{
                 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
