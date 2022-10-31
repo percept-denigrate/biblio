@@ -46,12 +46,28 @@ public class HelloController {
             if(c==0){
                 loginText.setText("Cette adresse n'est pas enregistrée.");
             }else{
+                sql = "SELECT categorie FROM Usager WHERE email=?";
+                PreparedStatement stmt2 = con.prepareStatement(sql);
+                stmt2.setString(1, email);
+                ResultSet rs2 = stmt2.executeQuery();
+                String categorie = "";
+                while (rs2.next()){
+                    categorie = rs2.getString("categorie");
+                }
+
+                if(categorie.equals("admin")){
+                    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
+                    System.out.println("admin");
+                }else{
+                    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
+                }
                 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
             }
+            con.close();
         } catch(Exception e){ System.out.println(e);}
     }
 }
