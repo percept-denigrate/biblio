@@ -25,5 +25,6 @@
          </children>
       </HBox>
       <Button layoutX="248.0" layoutY="244.0" mnemonicParsing="false" onAction="#connecter" text="Se connecter" />
+      <Text fx:id="loginText" layoutX="286.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>

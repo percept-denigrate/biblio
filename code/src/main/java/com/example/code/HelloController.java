@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class HelloController {
     private TextField emailField;
     @FXML
     private String email;
+    @FXML
+    private Text loginText;
     @FXML
     public void connecter(ActionEvent event) throws IOException {
         email = emailField.getText();
@@ -43,6 +46,7 @@ public class HelloController {
             }
             if(c==0){
                 System.out.println("Mauvaise adresse");
+                loginText.setText("Cette adresse n'est pas enregistrée.");
             }else{
                 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
