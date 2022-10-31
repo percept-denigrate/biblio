@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.code.Appli">
+   <children>
+      <TabPane layoutX="6.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab closable="false" text="Emprunter">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="188.0" layoutY="84.0" prefHeight="29.0" prefWidth="224.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN :   " />
+                              <TextField id="empruntISBN" />
+                           </children>
+                        </HBox>
+                        <Button layoutX="232.0" layoutY="124.0" mnemonicParsing="false" text="Emprunter le livre" />
+                        <Text id="empruntDisplay" layoutX="286.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Foo" />
+                        <Text id="empruntPossible" layoutX="189.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vous pouvez emprunter n livre(s)." />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Rendre">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox layoutX="191.0" layoutY="76.0" prefHeight="35.0" prefWidth="220.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN :   " />
+                              <TextField id="restituion" prefHeight="24.0" prefWidth="186.0" />
+                           </children>
+                        </HBox>
+                        <Button layoutX="244.0" layoutY="134.0" mnemonicParsing="false" text="Rendre le livre" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab closable="false" text="Untitled Tab">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+            <Tab closable="false" text="Untitled Tab">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
