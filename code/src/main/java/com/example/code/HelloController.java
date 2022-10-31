@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.*;
 
 public class HelloController {
 
@@ -24,11 +25,31 @@ public class HelloController {
     @FXML
     public void connecter(ActionEvent event) throws IOException {
         email = emailField.getText();
-        System.out.println(email);
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+
+        try {
+            String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
+            String username = "root";
+            String password = "JeHaisMySQL";
+            Connection con = null;
+            con = DriverManager.getConnection(jdbcURL, username, password);
+            String sql = "SELECT COUNT(*) as C FROM Usager WHERE email=?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            int c = 0;
+            while(rs.next()){
+                c = rs.getInt("C");
+                System.out.println(c);
+            }
+            if(c==0){
+                System.out.println("Mauvaise adresse");
+            }else{
+                Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+        } catch(Exception e){ System.out.println(e);}
     }
 }
