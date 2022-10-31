@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -25,10 +26,17 @@ public class HelloController {
     private String email;
     @FXML
     private Text loginText;
+
+    @FXML
+    private Text empruntNombre;
+    @FXML
+    private Button boutonEmprunter;
+    @FXML
+    private TextField empruntISBN;
+
     @FXML
     public void connecter(ActionEvent event) throws IOException {
         email = emailField.getText();
-
         try {
             String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
             String username = "root";
@@ -68,6 +76,24 @@ public class HelloController {
                 stage.show();
             }
             con.close();
-        } catch(Exception e){ System.out.println(e);}
+        } catch(Exception e){ System.err.println(e);}
+    }
+
+    @FXML
+    public void afficherNombreEmprunts()throws IOException{
+        try{
+            String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
+            String username = "root";
+            String password = "JeHaisMySQL";
+            Connection con = null;
+            con = DriverManager.getConnection(jdbcURL, username, password);
+            String sql = "SELECT COUNT(*) as c FROM Usager JOIN Emprunt ON Usager.id=Emprunt.usager WHERE Emprunt.fin IS NULL;";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            int emprunts = 0;
+            while(rs.next()){
+                emprunts = rs.getInt("C");
+            }
+        }catch (Exception e){ System.err.println(e);}
     }
 }

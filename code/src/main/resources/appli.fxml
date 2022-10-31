@@ -8,24 +8,24 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.code.HelloController">
    <children>
-      <TabPane layoutX="6.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="400.0" prefWidth="606.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab closable="false" text="Emprunter">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <HBox layoutX="188.0" layoutY="84.0" prefHeight="29.0" prefWidth="224.0">
+                        <HBox layoutX="191.0" layoutY="134.0" prefHeight="29.0" prefWidth="224.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN :   " />
-                              <TextField id="empruntISBN" />
+                              <TextField fx:id="empruntISBN" />
                            </children>
                         </HBox>
-                        <Button layoutX="232.0" layoutY="124.0" mnemonicParsing="false" text="Emprunter le livre" />
-                        <Text id="empruntDisplay" layoutX="286.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Foo" />
-                        <Text id="empruntPossible" layoutX="189.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vous pouvez emprunter n livre(s)." />
+                        <Button fx:id="boutonEmprunter" layoutX="235.0" layoutY="173.0" mnemonicParsing="false" text="Emprunter le livre" />
+                        <Text id="empruntDisplay" layoutX="291.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Foo" />
+                        <Text fx:id="empruntNombre" layoutX="189.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vous pouvez emprunter n livre(s)." />
+                        <Text layoutX="135.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rendez des livres pour pouvoir en emprunter plus." />
                      </children>
                   </AnchorPane>
             </content>
