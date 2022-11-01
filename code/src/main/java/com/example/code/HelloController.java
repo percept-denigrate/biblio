@@ -217,6 +217,18 @@ public class HelloController {
         nomColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("nom"));
         emailColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("email"));
         categorieColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("categorie"));
-        
+        try{
+            String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
+            String username = "root";
+            String password = "JeHaisMySQL";
+            Connection con = null;
+            con = DriverManager.getConnection(jdbcURL, username, password);
+            String sql = "SELECT * FROM Usager;";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                usagersTable.getItems().add(new Usager(rs.getString("prenom"),rs.getString("nom"),rs.getString("email"),rs.getString("categorie")));
+            }
+        }catch(Exception e){ System.err.println(e);}
     }
 }
