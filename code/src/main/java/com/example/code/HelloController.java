@@ -20,8 +20,10 @@ public class HelloController {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    private String id;
+    private int id;
     private int n = 0;
+    private Boolean listeRouge;
+
     @FXML
     private TextField emailField;
     @FXML
@@ -65,7 +67,7 @@ public class HelloController {
                 String categorie = "";
                 while (rs2.next()){
                     categorie = rs2.getString("categorie");
-                    id = rs2.getString("id");
+                    id = rs2.getInt("id");
                 }
                 String appli = "appli.fxml"; //A changer en "appliBasique.fxml";
                 if(categorie.equals("admin")){
@@ -76,6 +78,7 @@ public class HelloController {
                 loader.setController(this);
                 Parent root = (Parent) loader.load();
                 afficherNombreEmprunts();
+                listeRouge = estListeRouge();
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
@@ -103,7 +106,7 @@ public class HelloController {
             }
             sql = "SELECT Categorie.nb_max as max FROM Categorie JOIN Usager ON Categorie.nom=Usager.categorie WHERE Usager.id=?;";
             PreparedStatement stmt2 = con.prepareStatement(sql);
-            stmt2.setString(1,id);
+            stmt2.setString(1,""+id);
             ResultSet rs2 = stmt2.executeQuery();
             int max = 0;
             while (rs2.next()){
@@ -114,9 +117,30 @@ public class HelloController {
         empruntNombre.setText("Vous pouvez emprunter "+n+" livre(s).");
     }
 
+    private Boolean estListeRouge() {
+        try {
+            String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
+            String username = "root";
+            String password = "JeHaisMySQL";
+            Connection con = null;
+            con = DriverManager.getConnection(jdbcURL, username, password);
+            String sql = "SELECT COUNT(*) as c FROM Usager JOIN Liste_rouge ON Usager.id=Liste_rouge.usager WHERE Usager.id=? AND Liste_rouge.fin IS NULL;";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
+            int c = 0;
+            while (rs.next()) {
+                c = rs.getInt("c");
+            }
+            System.out.println(c);
+            return c >= 1;
+        }catch (Exception e){ System.err.println(e); return false;}
+    }
+
     @FXML
     public void emprunter(ActionEvent event){
         if(n==0) return;
+        if(listeRouge) return;
         System.out.println("ezrs");
     }
 }
