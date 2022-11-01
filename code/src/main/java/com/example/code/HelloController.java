@@ -112,7 +112,6 @@ public class HelloController {
             n = max - emprunts;
         }catch (Exception e){ System.err.println(e);}
         String affichage = "Vous pouvez emprunter "+n+" livre(s).";
-        System.out.println(affichage);
         empruntNombre.setText(affichage);
     }
 }
