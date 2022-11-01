@@ -30,7 +30,7 @@ public class HelloController {
     private Text loginText;
 
     @FXML
-    private Label empruntNombre;
+    private Text empruntNombre;
     @FXML
     private Button boutonEmprunter;
     @FXML
@@ -112,5 +112,11 @@ public class HelloController {
             n = max - emprunts;
         }catch (Exception e){ System.err.println(e);}
         empruntNombre.setText("Vous pouvez emprunter "+n+" livre(s).");
+    }
+
+    @FXML
+    public void emprunter(ActionEvent event){
+        if(n==0) return;
+        System.out.println("ezrs");
     }
 }
