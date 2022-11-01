@@ -78,35 +78,14 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView prefHeight="338.0" prefWidth="606.0">
+                                          <TableView fx:id="inventaireT" prefHeight="338.0" prefWidth="606.0">
                                              <columns>
-                                                <TableColumn prefWidth="75.0" text="Titre" />
-                                                <TableColumn prefWidth="75.0" text="Auteur" />
-                                                <TableColumn prefWidth="75.0" text="Date" />
-                                                <TableColumn prefWidth="75.0" text="Edition" />
-                                                <TableColumn prefWidth="75.0" text="ISBN" />
+                                                <TableColumn fx:id="titreT" prefWidth="75.0" text="Titre" />
+                                                <TableColumn fx:id="auteurT" prefWidth="75.0" text="Auteur" />
+                                                <TableColumn fx:id="dateT" prefWidth="75.0" text="Date" />
+                                                <TableColumn fx:id="EditionT" prefWidth="75.0" text="Edition" />
+                                                <TableColumn fx:id="ISBNT" prefWidth="75.0" text="ISBN" />
                                              </columns>
-                                             <columnResizePolicy>
-                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                             </columnResizePolicy>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                              </content>
-                            </Tab>
-                            <Tab text="Empruntés">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <TableView prefHeight="338.0" prefWidth="606.0">
-                                            <columns>
-                                              <TableColumn prefWidth="75.0" text="Titre" />
-                                              <TableColumn prefWidth="75.0" text="Auteur" />
-                                                <TableColumn prefWidth="75.0" text="Date" />
-                                                <TableColumn prefWidth="75.0" text="Edition" />
-                                                <TableColumn prefWidth="75.0" text="ISBN" />
-                                                <TableColumn prefWidth="75.0" text="Emprunteur" />
-                                            </columns>
                                              <columnResizePolicy>
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                              </columnResizePolicy>
@@ -119,13 +98,13 @@
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView prefHeight="338.0" prefWidth="606.0">
+                                          <TableView fx:id="inventaireD" prefHeight="338.0" prefWidth="606.0">
                                              <columns>
-                                                <TableColumn prefWidth="75.0" text="Titre" />
-                                                <TableColumn prefWidth="75.0" text="Auteur" />
-                                                <TableColumn prefWidth="75.0" text="Date" />
-                                                <TableColumn prefWidth="75.0" text="Edition" />
-                                                <TableColumn prefWidth="75.0" text="ISBN" />
+                                                <TableColumn fx:id="titreD" prefWidth="75.0" text="Titre" />
+                                                <TableColumn fx:id="auteurD" prefWidth="75.0" text="Auteur" />
+                                                <TableColumn fx:id="dateD" prefWidth="75.0" text="Date" />
+                                                <TableColumn fx:id="editionD" prefWidth="75.0" text="Edition" />
+                                                <TableColumn fx:id="ISBND" prefWidth="75.0" text="ISBN" />
                                              </columns>
                                              <columnResizePolicy>
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -135,6 +114,27 @@
                                     </AnchorPane>
                                 </content>
                               </Tab>
+                            <Tab text="Empruntés">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView fx:id="InventaireE" prefHeight="338.0" prefWidth="606.0">
+                                            <columns>
+                                              <TableColumn fx:id="titreE" prefWidth="75.0" text="Titre" />
+                                              <TableColumn fx:id="auteurE" prefWidth="75.0" text="Auteur" />
+                                                <TableColumn fx:id="dateE" prefWidth="75.0" text="Date" />
+                                                <TableColumn fx:id="editionE" prefWidth="75.0" text="Edition" />
+                                                <TableColumn fx:id="ISBNE" prefWidth="75.0" text="ISBN" />
+                                                <TableColumn fx:id="emprunteurE" prefWidth="75.0" text="Emprunteur" />
+                                            </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
                           </tabs>
                         </TabPane>
                      </children></AnchorPane>

@@ -59,6 +59,45 @@ public class HelloController {
     private TableView<Usager> usagersTable;
 
     @FXML
+    private TableColumn<?, ?> EditionT;
+    @FXML
+    private TableColumn<?, ?> ISBND;
+    @FXML
+    private TableColumn<?, ?> ISBNE;
+    @FXML
+    private TableColumn<?, ?> ISBNT;
+    @FXML
+    private TableView<?> InventaireE;
+    @FXML
+    private TableColumn<?, ?> auteurD;
+    @FXML
+    private TableColumn<?, ?> auteurE;
+    @FXML
+    private TableColumn<?, ?> auteurT;
+    @FXML
+    private TableColumn<?, ?> dateD;
+    @FXML
+    private TableColumn<?, ?> dateE;
+    @FXML
+    private TableColumn<?, ?> dateT;
+    @FXML
+    private TableColumn<?, ?> editionD;
+    @FXML
+    private TableColumn<?, ?> editionE;
+    @FXML
+    private TableColumn<?, ?> emprunteurE;
+    @FXML
+    private TableView<?> inventaireD;
+    @FXML
+    private TableView<?> inventaireT;
+    @FXML
+    private TableColumn<?, ?> titreD;
+    @FXML
+    private TableColumn<?, ?> titreE;
+    @FXML
+    private TableColumn<?, ?> titreT;
+
+    @FXML
     public void connecter(ActionEvent event) throws IOException {
         email = emailField.getText();
         try {
