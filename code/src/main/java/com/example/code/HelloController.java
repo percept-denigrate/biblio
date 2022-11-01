@@ -77,8 +77,11 @@ public class HelloController {
                 FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(appli));
                 loader.setController(this);
                 Parent root = (Parent) loader.load();
-                afficherNombreEmprunts();
                 listeRouge = estListeRouge();
+                if(listeRouge)
+                    empruntNombre.setText("Vous ne pouvez pas emprunter car vous avez été placé sur liste rouge.");
+                else
+                    afficherNombreEmprunts();
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
