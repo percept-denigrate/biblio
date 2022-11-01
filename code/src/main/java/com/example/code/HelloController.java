@@ -29,9 +29,11 @@ public class HelloController {
     private Text loginText;
 
     @FXML
-    private Text empruntNombre;
+    private Label empruntNombre;
     @FXML
     private Button boutonEmprunter;
+    @FXML
+    private Text empruntDisplay;
     @FXML
     private TextField empruntISBN;
 
@@ -64,26 +66,28 @@ public class HelloController {
                     categorie = rs2.getString("categorie");
                     id = rs2.getString("id");
                 }
-
+                String appli = "appli.fxml"; //A changer en "appliBasique.fxml";
                 if(categorie.equals("admin")){
-                    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
+                    appli = "appli.fxml";
                     System.out.println("admin");
-                }else{
-                    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
                 }
-                Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(appli));
+                loader.setController(this);
+                Parent root = (Parent) loader.load();
+                afficherNombreEmprunts();
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                System.out.println(id);
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
             }
             con.close();
         } catch(Exception e){ System.err.println(e);}
+
     }
 
     @FXML
     public void afficherNombreEmprunts()throws IOException{
+        int n = 0;
         try{
             String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
             String username = "root";
@@ -100,6 +104,15 @@ public class HelloController {
             sql = "SELECT Categorie.nb_max as max FROM Categorie JOIN Usager ON Categorie.nom=Usager.categorie WHERE Usager.id=?;";
             PreparedStatement stmt2 = con.prepareStatement(sql);
             stmt2.setString(1,id);
+            ResultSet rs2 = stmt2.executeQuery();
+            int max = 0;
+            while (rs2.next()){
+                max = rs2.getInt("max");
+            }
+            n = max - emprunts;
         }catch (Exception e){ System.err.println(e);}
+        String affichage = "Vous pouvez emprunter "+n+" livre(s).";
+        System.out.println(affichage);
+        empruntNombre.setText(affichage);
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -8,7 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.code.HelloController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" >
+<!-- <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.code.HelloController"> -->
    <children>
       <TabPane prefHeight="400.0" prefWidth="606.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -23,9 +25,9 @@
                            </children>
                         </HBox>
                         <Button fx:id="boutonEmprunter" layoutX="235.0" layoutY="173.0" mnemonicParsing="false" text="Emprunter le livre" />
-                        <Text id="empruntDisplay" layoutX="291.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Foo" />
-                        <Text fx:id="empruntNombre" layoutX="189.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vous pouvez emprunter n livre(s)." />
+                        <Text fx:id="empruntDisplay" layoutX="291.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Foo" />
                         <Text layoutX="135.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rendez des livres pour pouvoir en emprunter plus." />
+                        <Label fx:id="empruntNombre" layoutX="192.0" layoutY="46.0" text="Vous pouvez emprunter n livre(s)." />
                      </children>
                   </AnchorPane>
             </content>
