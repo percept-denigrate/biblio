@@ -20,6 +20,7 @@ public class HelloController {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private String id;
     @FXML
     private TextField emailField;
     @FXML
@@ -54,13 +55,14 @@ public class HelloController {
             if(c==0){
                 loginText.setText("Cette adresse n'est pas enregistrée.");
             }else{
-                sql = "SELECT categorie FROM Usager WHERE email=?";
+                sql = "SELECT Usager.id as id,categorie FROM Usager WHERE email=?";
                 PreparedStatement stmt2 = con.prepareStatement(sql);
                 stmt2.setString(1, email);
                 ResultSet rs2 = stmt2.executeQuery();
                 String categorie = "";
                 while (rs2.next()){
                     categorie = rs2.getString("categorie");
+                    id = rs2.getString("id");
                 }
 
                 if(categorie.equals("admin")){
@@ -71,6 +73,7 @@ public class HelloController {
                 }
                 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("appli.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                System.out.println(id);
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
@@ -94,6 +97,9 @@ public class HelloController {
             while(rs.next()){
                 emprunts = rs.getInt("C");
             }
+            sql = "SELECT Categorie.nb_max as max FROM Categorie JOIN Usager ON Categorie.nom=Usager.categorie WHERE Usager.id=?;";
+            PreparedStatement stmt2 = con.prepareStatement(sql);
+            stmt2.setString(1,id);
         }catch (Exception e){ System.err.println(e);}
     }
 }
