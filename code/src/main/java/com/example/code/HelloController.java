@@ -161,15 +161,30 @@ public class HelloController {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, ISBN);
             ResultSet rs = stmt.executeQuery();
-            Vector<int> idListe = new Vector<int>();
+            Vector<Integer> idListe = new Vector<Integer>();
             while (rs.next()) {
                 idListe.add(rs.getInt("id"));
             }
             if(idListe.size()==0){
                 empruntDisplay.setText("Cette édition n'est pas disponible dans la bibliothèque.");
             }else{
+                int idDispo = -1;
                 for(int i = 0; i<idListe.size(); i++){
-                    
+                    String sql2 = "SELECT COUNT(*) as c FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre WHERE id=? AND fin IS NULL;";
+                    PreparedStatement stmt2 = con.prepareStatement(sql2);
+                    stmt2.setInt(1, idListe.get(i));
+                    ResultSet rs2 = stmt2.executeQuery();
+                    rs2.next();
+                    System.out.println("Nombre de livres pris : "+rs2.getInt("c"));
+                    if(rs2.getInt("c") == 0){
+                        idDispo = idListe.get(i);
+                        break;
+                    }
+                }
+                if(idDispo == -1)
+                    empruntDisplay.setText("Tous les livres de cette édition sont déjà empruntés.");
+                else{
+                    empruntDisplay.setText("Emprunt validé");
                 }
             }
         }catch(Exception e){ System.err.println(e);}
