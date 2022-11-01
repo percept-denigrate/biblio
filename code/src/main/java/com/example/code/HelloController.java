@@ -21,6 +21,7 @@ public class HelloController {
     private Scene scene;
     private Parent root;
     private String id;
+    private int n = 0;
     @FXML
     private TextField emailField;
     @FXML
@@ -87,7 +88,6 @@ public class HelloController {
 
     @FXML
     public void afficherNombreEmprunts()throws IOException{
-        int n = 0;
         try{
             String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
             String username = "root";
@@ -111,7 +111,6 @@ public class HelloController {
             }
             n = max - emprunts;
         }catch (Exception e){ System.err.println(e);}
-        String affichage = "Vous pouvez emprunter "+n+" livre(s).";
-        empruntNombre.setText(affichage);
+        empruntNombre.setText("Vous pouvez emprunter "+n+" livre(s).");
     }
 }
