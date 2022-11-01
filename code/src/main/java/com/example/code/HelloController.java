@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.Vector;
 
 public class HelloController {
 
@@ -141,7 +142,6 @@ public class HelloController {
             while (rs.next()) {
                 c = rs.getInt("c");
             }
-            System.out.println(c);
             return c >= 1;
         }catch (Exception e){ System.err.println(e); return false;}
     }
@@ -150,6 +150,28 @@ public class HelloController {
     public void emprunter(ActionEvent event){
         if(n==0) return;
         if(listeRouge) return;
-        System.out.println("ezrs");
+        try {
+            String ISBN = empruntISBN.getText();
+            String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
+            String username = "root";
+            String password = "JeHaisMySQL";
+            Connection con = null;
+            con = DriverManager.getConnection(jdbcURL, username, password);
+            String sql = "SELECT Livre.id as id FROM Livre WHERE ISBN=?;";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, ISBN);
+            ResultSet rs = stmt.executeQuery();
+            Vector<int> idListe = new Vector<int>();
+            while (rs.next()) {
+                idListe.add(rs.getInt("id"));
+            }
+            if(idListe.size()==0){
+                empruntDisplay.setText("Cette édition n'est pas disponible dans la bibliothèque.");
+            }else{
+                for(int i = 0; i<idListe.size(); i++){
+                    
+                }
+            }
+        }catch(Exception e){ System.err.println(e);}
     }
 }
