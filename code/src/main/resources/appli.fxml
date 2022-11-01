@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
@@ -25,8 +24,9 @@
                         </HBox>
                         <Button fx:id="boutonEmprunter" layoutX="235.0" layoutY="173.0" mnemonicParsing="false" onAction="#emprunter" text="Emprunter le livre" />
                         <Text fx:id="empruntDisplay" layoutX="291.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Foo" />
-                        <Text layoutX="135.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rendez des livres pour pouvoir en emprunter plus." />
+                        <Text fx:id="rendreLivres" layoutX="137.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rendez des livres pour pouvoir en emprunter plus." />
                         <Text fx:id="empruntNombre" layoutX="192.0" layoutY="46.0" text="Vous pouvez emprunter n livre(s)." />
+                        <Text fx:id="texteListeRouge" layoutX="71.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
                      </children>
                   </AnchorPane>
             </content>

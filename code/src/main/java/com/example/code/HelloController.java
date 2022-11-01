@@ -32,6 +32,8 @@ public class HelloController {
     private Text loginText;
 
     @FXML
+    private Text texteListeRouge;
+    @FXML
     private Text empruntNombre;
     @FXML
     private Button boutonEmprunter;
@@ -39,6 +41,8 @@ public class HelloController {
     private Text empruntDisplay;
     @FXML
     private TextField empruntISBN;
+    @FXML
+    private Text rendreLivres;
 
     @FXML
     public void connecter(ActionEvent event) throws IOException {
@@ -78,9 +82,11 @@ public class HelloController {
                 loader.setController(this);
                 Parent root = (Parent) loader.load();
                 listeRouge = estListeRouge();
-                if(listeRouge)
-                    empruntNombre.setText("Vous ne pouvez pas emprunter car vous avez été placé sur liste rouge.");
-                else
+                if(listeRouge) {
+                    texteListeRouge.setText("Vous ne pouvez pas emprunter car vous avez été placé sur liste rouge.");
+                    empruntNombre.setText("");
+                    rendreLivres.setText("");
+                } else
                     afficherNombreEmprunts();
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
