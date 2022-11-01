@@ -62,11 +62,7 @@ public class HelloController {
     public void connecter(ActionEvent event) throws IOException {
         email = emailField.getText();
         try {
-            String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
-            String username = "root";
-            String password = "JeHaisMySQL";
-            Connection con = null;
-            con = DriverManager.getConnection(jdbcURL, username, password);
+            Connection con = DB.connecter();
             String sql = "SELECT COUNT(*) as C FROM Usager WHERE email=?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
@@ -116,11 +112,7 @@ public class HelloController {
     @FXML
     public void afficherNombreEmprunts()throws IOException{
         try{
-            String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
-            String username = "root";
-            String password = "JeHaisMySQL";
-            Connection con = null;
-            con = DriverManager.getConnection(jdbcURL, username, password);
+            Connection con = DB.connecter();
             String sql = "SELECT COUNT(*) as c FROM Usager JOIN Emprunt ON Usager.id=Emprunt.usager WHERE Emprunt.fin IS NULL;";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -136,6 +128,7 @@ public class HelloController {
             while (rs2.next()){
                 max = rs2.getInt("max");
             }
+            con.close();
             n = max - emprunts;
         }catch (Exception e){ System.err.println(e);}
         empruntNombre.setText("Vous pouvez emprunter "+n+" livre(s).");
@@ -143,11 +136,7 @@ public class HelloController {
 
     private Boolean estListeRouge() {
         try {
-            String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
-            String username = "root";
-            String password = "JeHaisMySQL";
-            Connection con = null;
-            con = DriverManager.getConnection(jdbcURL, username, password);
+            Connection con = DB.connecter();
             String sql = "SELECT COUNT(*) as c FROM Usager JOIN Liste_rouge ON Usager.id=Liste_rouge.usager WHERE Usager.id=? AND Liste_rouge.fin IS NULL;";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1,id);
@@ -156,6 +145,7 @@ public class HelloController {
             while (rs.next()) {
                 c = rs.getInt("c");
             }
+            con.close();
             return c >= 1;
         }catch (Exception e){ System.err.println(e); return false;}
     }
@@ -166,11 +156,7 @@ public class HelloController {
         if(listeRouge) return;
         try {
             String ISBN = empruntISBN.getText();
-            String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
-            String username = "root";
-            String password = "JeHaisMySQL";
-            Connection con = null;
-            con = DriverManager.getConnection(jdbcURL, username, password);
+            Connection con = DB.connecter();
             String sql = "SELECT Livre.id as id FROM Livre WHERE ISBN=?;";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, ISBN);
@@ -218,17 +204,14 @@ public class HelloController {
         emailColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("email"));
         categorieColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("categorie"));
         try{
-            String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
-            String username = "root";
-            String password = "JeHaisMySQL";
-            Connection con = null;
-            con = DriverManager.getConnection(jdbcURL, username, password);
+            Connection con = DB.connecter();
             String sql = "SELECT * FROM Usager;";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
                 usagersTable.getItems().add(new Usager(rs.getString("prenom"),rs.getString("nom"),rs.getString("email"),rs.getString("categorie")));
             }
+            con.close();
         }catch(Exception e){ System.err.println(e);}
     }
 }
