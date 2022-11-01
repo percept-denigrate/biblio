@@ -7,7 +7,7 @@ public class Usager {
     private String email;
     private String categorie;
 
-    public Usager(String nom, String prenom, String email, String categorie) {
+    public Usager(String prenom, String nom, String email, String categorie) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;

@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -105,6 +106,7 @@ public class HelloController {
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+                afficherUsagers();
             }
             con.close();
         } catch(Exception e){ System.err.println(e);}
@@ -207,5 +209,14 @@ public class HelloController {
             }
             con.close();
         }catch(Exception e){ System.err.println(e);}
+    }
+
+    @FXML
+    public void afficherUsagers(){
+        prenomColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("prenom"));
+        nomColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("nom"));
+        emailColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("email"));
+        categorieColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("categorie"));
+        
     }
 }
