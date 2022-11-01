@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Vector;
 
 public class HelloController {
@@ -170,12 +171,11 @@ public class HelloController {
             }else{
                 int idDispo = -1;
                 for(int i = 0; i<idListe.size(); i++){
-                    String sql2 = "SELECT COUNT(*) as c FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre WHERE id=? AND fin IS NULL;";
-                    PreparedStatement stmt2 = con.prepareStatement(sql2);
+                    sql = "SELECT COUNT(*) as c FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre WHERE id=? AND fin IS NULL;";
+                    PreparedStatement stmt2 = con.prepareStatement(sql);
                     stmt2.setInt(1, idListe.get(i));
                     ResultSet rs2 = stmt2.executeQuery();
                     rs2.next();
-                    System.out.println("Nombre de livres pris : "+rs2.getInt("c"));
                     if(rs2.getInt("c") == 0){
                         idDispo = idListe.get(i);
                         break;
@@ -185,8 +185,16 @@ public class HelloController {
                     empruntDisplay.setText("Tous les livres de cette édition sont déjà empruntés.");
                 else{
                     empruntDisplay.setText("Emprunt validé");
+                    sql = "INSERT INTO Emprunt VALUES(?,?,?,NULL);";
+                    PreparedStatement stmt3 = con.prepareStatement(sql);
+                    stmt3.setInt(1,idDispo);
+                    stmt3.setInt(2,id);
+                    stmt3.setDate(3, Date.valueOf(LocalDate.now()));
+                    stmt3.executeUpdate();
+                    System.out.println("Emprunt validé");
                 }
             }
+            con.close();
         }catch(Exception e){ System.err.println(e);}
     }
 }
