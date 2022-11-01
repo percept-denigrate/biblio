@@ -6,9 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -45,6 +43,19 @@ public class HelloController {
     private TextField empruntISBN;
     @FXML
     private Text rendreLivres;
+
+    @FXML
+    private TableColumn<Usager, String> categorieColonne;
+    @FXML
+    private TableColumn<Usager, String> emailColonne;
+    @FXML
+    private TableColumn<Usager, String> listeRougeColonne;
+    @FXML
+    private TableColumn<Usager, String> nomColonne;
+    @FXML
+    private TableColumn<Usager, String> prenomColonne;
+    @FXML
+    private TableView<Usager> usagersTable;
 
     @FXML
     public void connecter(ActionEvent event) throws IOException {
