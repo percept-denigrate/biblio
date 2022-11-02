@@ -236,7 +236,6 @@ public class HelloController {
                     stmt3.setInt(2,id);
                     stmt3.setDate(3, Date.valueOf(LocalDate.now()));
                     stmt3.executeUpdate();
-                    System.out.println("Emprunt validé");
                 }
             }
             con.close();
@@ -254,7 +253,13 @@ public class HelloController {
             stmt.setLong(2,ISBN);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
-                
+                int idLivre = rs.getInt("id");
+                sql = "INSERT INTO Emprunt VALUES(?,?,?,NULL);";
+                PreparedStatement stmt2 = con.prepareStatement(sql);
+                stmt2.setInt(1,idLivre);
+                stmt2.setInt(2,id);
+                stmt2.setDate(3,Date.valueOf(LocalDate.now()));
+                stmt2.executeUpdate();
             }else System.out.println("Livre pas emprunté");
 
             con.close();
