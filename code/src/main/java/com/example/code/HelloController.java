@@ -244,7 +244,22 @@ public class HelloController {
     }
 
     @FXML
-    public void rendre(ActionEvent event){}
+    public void rendre(ActionEvent event){
+        long ISBN = Long.parseLong(restitutionISBN.getText());
+        try {
+            Connection con = DB.connecter();
+            String sql = "SELECT * FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre WHERE Emprunt.usager=? AND Livre.ISBN=? AND Emprunt.fin IS NULL;";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1,id);
+            stmt.setLong(2,ISBN);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                
+            }else System.out.println("Livre pas emprunté");
+
+            con.close();
+        }catch(Exception e){ System.err.println(e);}
+    }
 
     @FXML
     public void afficherUsagers(){
