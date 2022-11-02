@@ -285,15 +285,16 @@ public class HelloController {
         emprunteurE.setCellValueFactory(new PropertyValueFactory<Livre, String>("emprunteur"));
         try {
             Connection con = DB.connecter();
-            String sql = "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee,Usager.prenom as usager_prenom,Usager.nom as usager_nom " +
-                            "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
-                            "(SELECT Livre.id,ISBN FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre GROUP BY Livre.id HAVING COUNT(*)!=COUNT(Emprunt.fin)) AS LivreE JOIN Emprunt JOIN Usager " +
-                            "ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=LivreE.ISBN AND Emprunt.usager=Usager.id;";
+            String sql =
+                    "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee,Usager.prenom as usager_prenom,Usager.nom as usager_nom " +
+                    "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
+                        "(SELECT Livre.id,ISBN FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre GROUP BY Livre.id HAVING COUNT(*)!=COUNT(Emprunt.fin)) AS LivreE JOIN Emprunt JOIN Usager " +
+                    "ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=LivreE.ISBN AND Emprunt.usager=Usager.id " +
+                    "WHERE Emprunt.fin IS NULL;";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 inventaireE.getItems().add(new Livre(rs.getString("titre"), rs.getString("prenom") + " " + rs.getString("nom"), rs.getInt("date"), rs.getString("editeur") + " " + rs.getInt("annee"), rs.getLong("ISBN"), rs.getString("usager_prenom")+" "+rs.getString("usager_nom")));
-                System.out.println("Livre emprunte ajoute");
             }
             con.close();
         }catch(Exception e){ System.err.println(e);}
