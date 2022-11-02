@@ -159,21 +159,20 @@ public class HelloController {
     public void afficherNombreEmprunts()throws IOException{
         try{
             Connection con = DB.connecter();
-            String sql = "SELECT COUNT(*) as c FROM Usager JOIN Emprunt ON Usager.id=Emprunt.usager WHERE Emprunt.fin IS NULL;";
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+            String sql = "SELECT COUNT(*) as c FROM Usager JOIN Emprunt ON Usager.id=Emprunt.usager WHERE Emprunt.fin IS NULL AND Emprunt.usager=?;";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
             int emprunts = 0;
-            while(rs.next()){
-                emprunts = rs.getInt("C");
-            }
+            rs.next();
+            emprunts = rs.getInt("c");
             sql = "SELECT Categorie.nb_max as max FROM Categorie JOIN Usager ON Categorie.nom=Usager.categorie WHERE Usager.id=?;";
             PreparedStatement stmt2 = con.prepareStatement(sql);
-            stmt2.setString(1,""+id);
+            stmt2.setInt(1,id);
             ResultSet rs2 = stmt2.executeQuery();
             int max = 0;
-            while (rs2.next()){
+            rs2.next();
                 max = rs2.getInt("max");
-            }
             con.close();
             n = max - emprunts;
         }catch (Exception e){ System.err.println(e);}
