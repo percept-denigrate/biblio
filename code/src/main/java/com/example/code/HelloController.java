@@ -67,7 +67,7 @@ public class HelloController {
     @FXML
     private TableColumn<Livre, Long> ISBNT;
     @FXML
-    private TableView<Livre> InventaireE;
+    private TableView<Livre> inventaireE;
     @FXML
     private TableColumn<Livre, String> auteurD;
     @FXML
@@ -143,6 +143,7 @@ public class HelloController {
                 stage.show();
                 afficherUsagers();
                 inventaireTous();
+                inventaireEmpruntes();
             }
             con.close();
         } catch(Exception e){ System.err.println(e);}
@@ -269,6 +270,30 @@ public class HelloController {
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
                 inventaireT.getItems().add(new Livre(rs.getString("titre"),rs.getString("prenom")+" "+rs.getString("nom"),rs.getInt("date"),rs.getString("editeur")+" "+rs.getInt("annee"),rs.getLong("ISBN")));
+            }
+            con.close();
+        }catch(Exception e){ System.err.println(e);}
+    }
+
+    @FXML
+    public void inventaireEmpruntes(){
+        titreE.setCellValueFactory(new PropertyValueFactory<Livre, String>("titre"));
+        auteurE.setCellValueFactory(new PropertyValueFactory<Livre, String>("auteur"));
+        dateE.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("date"));
+        editionE.setCellValueFactory(new PropertyValueFactory<Livre, String>("edition"));
+        ISBNE.setCellValueFactory(new PropertyValueFactory<Livre, Long>("ISBN"));
+        emprunteurE.setCellValueFactory(new PropertyValueFactory<Livre, String>("emprunteur"));
+        try {
+            Connection con = DB.connecter();
+            String sql = "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee,Usager.prenom as usager_prenom,Usager.nom as usager_nom " +
+                            "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
+                            "(SELECT Livre.id,ISBN FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre GROUP BY Livre.id HAVING COUNT(*)!=COUNT(Emprunt.fin)) AS LivreE JOIN Emprunt JOIN Usager " +
+                            "ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=LivreE.ISBN AND Emprunt.usager=Usager.id;";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                inventaireE.getItems().add(new Livre(rs.getString("titre"), rs.getString("prenom") + " " + rs.getString("nom"), rs.getInt("date"), rs.getString("editeur") + " " + rs.getInt("annee"), rs.getLong("ISBN"), rs.getString("usager_prenom")+" "+rs.getString("usager_nom")));
+                System.out.println("Livre emprunte ajoute");
             }
             con.close();
         }catch(Exception e){ System.err.println(e);}

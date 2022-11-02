@@ -118,7 +118,7 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView fx:id="InventaireE" prefHeight="338.0" prefWidth="606.0">
+                                          <TableView fx:id="inventaireE" prefHeight="338.0" prefWidth="606.0">
                                             <columns>
                                               <TableColumn fx:id="titreE" prefWidth="75.0" text="Titre" />
                                               <TableColumn fx:id="auteurE" prefWidth="75.0" text="Auteur" />
