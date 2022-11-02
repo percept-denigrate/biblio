@@ -237,6 +237,8 @@ public class HelloController {
                     stmt3.setInt(2,id);
                     stmt3.setDate(3, Date.valueOf(LocalDate.now()));
                     stmt3.executeUpdate();
+                    inventaireEmpruntes();
+                    inventaireDispo();
                 }
             }
             con.close();
@@ -263,6 +265,8 @@ public class HelloController {
                 stmt2.setDate(3,debut);
                 stmt2.executeUpdate();
                 restitutionDisplay.setText("Livre rendu");
+                inventaireEmpruntes();
+                inventaireDispo();
             }else restitutionDisplay.setText("Vous n'avez pas emprunté de livre avec cet ISBN.");
 
             con.close();
