@@ -59,43 +59,43 @@ public class HelloController {
     private TableView<Usager> usagersTable;
 
     @FXML
-    private TableColumn<?, ?> EditionT;
+    private TableColumn<Livre, String> editionT;
     @FXML
-    private TableColumn<?, ?> ISBND;
+    private TableColumn<Livre, Integer> ISBND;
     @FXML
-    private TableColumn<?, ?> ISBNE;
+    private TableColumn<Livre, Integer> ISBNE;
     @FXML
-    private TableColumn<?, ?> ISBNT;
+    private TableColumn<Livre, Integer> ISBNT;
     @FXML
-    private TableView<?> InventaireE;
+    private TableView<Livre> InventaireE;
     @FXML
-    private TableColumn<?, ?> auteurD;
+    private TableColumn<Livre, String> auteurD;
     @FXML
-    private TableColumn<?, ?> auteurE;
+    private TableColumn<Livre, String> auteurE;
     @FXML
-    private TableColumn<?, ?> auteurT;
+    private TableColumn<Livre, String> auteurT;
     @FXML
-    private TableColumn<?, ?> dateD;
+    private TableColumn<Livre, Integer> dateD;
     @FXML
-    private TableColumn<?, ?> dateE;
+    private TableColumn<Livre, Integer> dateE;
     @FXML
-    private TableColumn<?, ?> dateT;
+    private TableColumn<Livre, Integer> dateT;
     @FXML
-    private TableColumn<?, ?> editionD;
+    private TableColumn<Livre, String> editionD;
     @FXML
-    private TableColumn<?, ?> editionE;
+    private TableColumn<Livre, String> editionE;
     @FXML
-    private TableColumn<?, ?> emprunteurE;
+    private TableColumn<Livre, String> emprunteurE;
     @FXML
-    private TableView<?> inventaireD;
+    private TableView<Livre> inventaireD;
     @FXML
-    private TableView<?> inventaireT;
+    private TableView<Livre> inventaireT;
     @FXML
-    private TableColumn<?, ?> titreD;
+    private TableColumn<Livre, String> titreD;
     @FXML
-    private TableColumn<?, ?> titreE;
+    private TableColumn<Livre, String> titreE;
     @FXML
-    private TableColumn<?, ?> titreT;
+    private TableColumn<Livre, String> titreT;
 
     @FXML
     public void connecter(ActionEvent event) throws IOException {
@@ -252,5 +252,15 @@ public class HelloController {
             }
             con.close();
         }catch(Exception e){ System.err.println(e);}
+    }
+
+    @FXML
+    public void inventaireTous(){
+        titreT.setCellValueFactory(new PropertyValueFactory<Livre, String>("titre"));
+        auteurT.setCellValueFactory(new PropertyValueFactory<Livre, String>("auteur"));
+        dateT.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("date"));
+        editionT.setCellValueFactory(new PropertyValueFactory<Livre, String>("edition"));
+        ISBNT.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("ISBN"));
+
     }
 }

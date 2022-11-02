@@ -83,7 +83,7 @@
                                                 <TableColumn fx:id="titreT" prefWidth="75.0" text="Titre" />
                                                 <TableColumn fx:id="auteurT" prefWidth="75.0" text="Auteur" />
                                                 <TableColumn fx:id="dateT" prefWidth="75.0" text="Date" />
-                                                <TableColumn fx:id="EditionT" prefWidth="75.0" text="Edition" />
+                                                <TableColumn fx:id="editionT" prefWidth="75.0" text="Edition" />
                                                 <TableColumn fx:id="ISBNT" prefWidth="75.0" text="ISBN" />
                                              </columns>
                                              <columnResizePolicy>
