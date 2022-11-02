@@ -1,14 +1,16 @@
 package com.example.code;
 
+import java.time.LocalDate;
+
 public class Livre {
     private String titre;
     private String auteur;
     private int date;
     private String edition;
-    private int ISBN;
+    private Long ISBN;
     private String emprunteur;
 
-    public Livre(String titre, String auteur, int date, String edition, int ISBN) {
+    public Livre(String titre, String auteur, int date, String edition, long ISBN) {
         this.titre = titre;
         this.auteur = auteur;
         this.date = date;
@@ -16,7 +18,7 @@ public class Livre {
         this.ISBN = ISBN;
     }
 
-    public Livre(String titre, String auteur, int date, String edition, int ISBN, String emprunteur) {
+    public Livre(String titre, String auteur, int date, String edition, long ISBN, String emprunteur) {
         this.titre = titre;
         this.auteur = auteur;
         this.date = date;
@@ -57,11 +59,11 @@ public class Livre {
         this.edition = edition;
     }
 
-    public int getISBN() {
+    public Long getISBN() {
         return ISBN;
     }
 
-    public void setISBN(int ISBN) {
+    public void setISBN(long ISBN) {
         this.ISBN = ISBN;
     }
 

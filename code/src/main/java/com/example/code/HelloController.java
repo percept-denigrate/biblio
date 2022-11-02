@@ -61,11 +61,11 @@ public class HelloController {
     @FXML
     private TableColumn<Livre, String> editionT;
     @FXML
-    private TableColumn<Livre, Integer> ISBND;
+    private TableColumn<Livre, Long> ISBND;
     @FXML
-    private TableColumn<Livre, Integer> ISBNE;
+    private TableColumn<Livre, Long> ISBNE;
     @FXML
-    private TableColumn<Livre, Integer> ISBNT;
+    private TableColumn<Livre, Long> ISBNT;
     @FXML
     private TableView<Livre> InventaireE;
     @FXML
@@ -142,6 +142,7 @@ public class HelloController {
                 stage.setScene(scene);
                 stage.show();
                 afficherUsagers();
+                inventaireTous();
             }
             con.close();
         } catch(Exception e){ System.err.println(e);}
@@ -260,7 +261,16 @@ public class HelloController {
         auteurT.setCellValueFactory(new PropertyValueFactory<Livre, String>("auteur"));
         dateT.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("date"));
         editionT.setCellValueFactory(new PropertyValueFactory<Livre, String>("edition"));
-        ISBNT.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("ISBN"));
-
+        ISBNT.setCellValueFactory(new PropertyValueFactory<Livre, Long>("ISBN"));
+        try{
+            Connection con = DB.connecter();
+            String sql = "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN Livre ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=Livre.ISBN;";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                inventaireT.getItems().add(new Livre(rs.getString("titre"),rs.getString("prenom")+" "+rs.getString("nom"),rs.getInt("date"),rs.getString("editeur")+" "+rs.getInt("annee"),rs.getLong("ISBN")));
+            }
+            con.close();
+        }catch(Exception e){ System.err.println(e);}
     }
 }
