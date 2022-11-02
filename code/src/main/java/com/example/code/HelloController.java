@@ -144,6 +144,7 @@ public class HelloController {
                 afficherUsagers();
                 inventaireTous();
                 inventaireEmpruntes();
+                inventaireDispo();
             }
             con.close();
         } catch(Exception e){ System.err.println(e);}
@@ -288,13 +289,44 @@ public class HelloController {
             String sql =
                     "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee,Usager.prenom as usager_prenom,Usager.nom as usager_nom " +
                     "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
-                        "(SELECT Livre.id,ISBN FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre GROUP BY Livre.id HAVING COUNT(*)!=COUNT(Emprunt.fin)) AS LivreE JOIN Emprunt JOIN Usager " +
+                        "(SELECT Livre.id,ISBN FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre GROUP BY Livre.id HAVING COUNT(*)!=COUNT(Emprunt.fin)) AS LivreE JOIN Emprunt JOIN Usager " +  //livres dont il existe un emprunt en cours
                     "ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=LivreE.ISBN AND Emprunt.usager=Usager.id " +
-                    "WHERE Emprunt.fin IS NULL;";
+                    "WHERE Emprunt.fin IS NULL;";  //emprunt en cours
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 inventaireE.getItems().add(new Livre(rs.getString("titre"), rs.getString("prenom") + " " + rs.getString("nom"), rs.getInt("date"), rs.getString("editeur") + " " + rs.getInt("annee"), rs.getLong("ISBN"), rs.getString("usager_prenom")+" "+rs.getString("usager_nom")));
+            }
+            con.close();
+        }catch(Exception e){ System.err.println(e);}
+    }
+
+    public void inventaireDispo(){
+        titreD.setCellValueFactory(new PropertyValueFactory<Livre, String>("titre"));
+        auteurD.setCellValueFactory(new PropertyValueFactory<Livre, String>("auteur"));
+        dateD.setCellValueFactory(new PropertyValueFactory<Livre, Integer>("date"));
+        editionD.setCellValueFactory(new PropertyValueFactory<Livre, String>("edition"));
+        ISBND.setCellValueFactory(new PropertyValueFactory<Livre, Long>("ISBN"));
+        try {
+            Connection con = DB.connecter();
+            String sql =  //livres empruntes et rendus
+                    "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee " +
+                            "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
+                            "(SELECT Livre.id,ISBN FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre GROUP BY Livre.id HAVING COUNT(*)=COUNT(Emprunt.fin)) AS LivreE " +
+                            "ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=LivreE.ISBN ";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                inventaireD.getItems().add(new Livre(rs.getString("titre"), rs.getString("prenom") + " " + rs.getString("nom"), rs.getInt("date"), rs.getString("editeur") + " " + rs.getInt("annee"), rs.getLong("ISBN")));
+            }
+            sql =  //livres jamais empruntes
+                    "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee " +
+                    "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
+                    "(SELECT * FROM Livre WHERE Livre.id NOT IN (SELECT Emprunt.livre FROM Emprunt)) AS Livre;";
+            Statement stmt2 = con.createStatement();
+            ResultSet rs2 = stmt2.executeQuery(sql);
+            while (rs2.next()) {
+                inventaireD.getItems().add(new Livre(rs2.getString("titre"), rs2.getString("prenom") + " " + rs2.getString("nom"), rs2.getInt("date"), rs2.getString("editeur") + " " + rs2.getInt("annee"), rs2.getLong("ISBN")));
             }
             con.close();
         }catch(Exception e){ System.err.println(e);}
