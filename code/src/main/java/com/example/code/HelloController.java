@@ -172,7 +172,7 @@ public class HelloController {
             ResultSet rs2 = stmt2.executeQuery();
             int max = 0;
             rs2.next();
-                max = rs2.getInt("max");
+            max = rs2.getInt("max");
             con.close();
             n = max - emprunts;
         }catch (Exception e){ System.err.println(e);}
@@ -314,9 +314,9 @@ public class HelloController {
             Connection con = DB.connecter();
             String sql =
                     "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee,Usager.prenom as usager_prenom,Usager.nom as usager_nom " +
-                    "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
-                        "(SELECT Livre.id,ISBN FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre GROUP BY Livre.id HAVING COUNT(*)!=COUNT(Emprunt.fin)) AS LivreE JOIN Emprunt JOIN Usager " +  //livres dont il existe un emprunt en cours
-                    "ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=LivreE.ISBN AND Emprunt.usager=Usager.id " +
+                    "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN Emprunt JOIN Usager JOIN " +
+                        "(SELECT Livre.id,ISBN FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre GROUP BY Livre.id HAVING COUNT(*)!=COUNT(Emprunt.fin)) AS LivreE " +  //livres dont il existe un emprunt en cours
+                    "ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=LivreE.ISBN AND LivreE.id=Emprunt.livre AND Emprunt.usager=Usager.id " +
                     "WHERE Emprunt.fin IS NULL;";  //emprunt en cours
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
