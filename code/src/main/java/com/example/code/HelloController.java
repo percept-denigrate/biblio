@@ -50,6 +50,8 @@ public class HelloController {
     @FXML
     private TextField restitutionISBN;
     @FXML
+    private Text restitutionDisplay;
+    @FXML
     private TableColumn<Usager, String> categorieColonne;
     @FXML
     private TableColumn<Usager, String> emailColonne;
@@ -253,13 +255,15 @@ public class HelloController {
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
                 int idLivre = rs.getInt("id");
-                sql = "INSERT INTO Emprunt VALUES(?,?,?,NULL);";
+                Date debut = rs.getDate("debut");
+                sql = "UPDATE Emprunt SET fin=? WHERE livre=? AND debut=?;";
                 PreparedStatement stmt2 = con.prepareStatement(sql);
-                stmt2.setInt(1,idLivre);
-                stmt2.setInt(2,id);
-                stmt2.setDate(3,Date.valueOf(LocalDate.now()));
+                stmt2.setDate(1,Date.valueOf(LocalDate.now()));
+                stmt2.setInt(2,idLivre);
+                stmt2.setDate(3,debut);
                 stmt2.executeUpdate();
-            }else System.out.println("Livre pas emprunté");
+                restitutionDisplay.setText("Livre rendu");
+            }else restitutionDisplay.setText("Vous n'avez pas emprunté de livre avec cet ISBN.");
 
             con.close();
         }catch(Exception e){ System.err.println(e);}

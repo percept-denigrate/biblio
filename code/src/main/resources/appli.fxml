@@ -25,7 +25,7 @@
                            </children>
                         </HBox>
                         <Button fx:id="boutonEmprunter" layoutX="235.0" layoutY="173.0" mnemonicParsing="false" onAction="#emprunter" text="Emprunter le livre" />
-                        <Text fx:id="empruntDisplay" layoutX="291.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Foo" />
+                        <Text fx:id="empruntDisplay" layoutX="291.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                         <Text fx:id="rendreLivres" layoutX="137.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rendez des livres pour pouvoir en emprunter plus." />
                         <Text fx:id="empruntNombre" layoutX="192.0" layoutY="46.0" text="Vous pouvez emprunter n livre(s)." />
                         <Text fx:id="texteListeRouge" layoutX="71.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
@@ -44,7 +44,7 @@
                            </children>
                         </HBox>
                         <Button fx:id="boutonRendre" layoutX="244.0" layoutY="134.0" mnemonicParsing="false" onAction="#rendre" text="Rendre le livre" />
-                        <Text id="empruntDisplay" layoutX="264.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Livre rendu" />
+                        <Text id="empruntDisplay" fx:id="restitutionDisplay" layoutX="264.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </AnchorPane>
             </content>
