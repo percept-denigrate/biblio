@@ -311,9 +311,9 @@ public class HelloController {
             Connection con = DB.connecter();
             String sql =  //livres empruntes et rendus
                     "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee " +
-                            "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
-                            "(SELECT Livre.id,ISBN FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre GROUP BY Livre.id HAVING COUNT(*)=COUNT(Emprunt.fin)) AS LivreE " +
-                            "ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=LivreE.ISBN ";
+                    "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
+                        "(SELECT Livre.id,ISBN FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre GROUP BY Livre.id HAVING COUNT(*)=COUNT(Emprunt.fin)) AS LivreE " +
+                    "ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=LivreE.ISBN;";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
@@ -322,7 +322,8 @@ public class HelloController {
             sql =  //livres jamais empruntes
                     "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee " +
                     "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
-                    "(SELECT * FROM Livre WHERE Livre.id NOT IN (SELECT Emprunt.livre FROM Emprunt)) AS Livre;";
+                        "(SELECT * FROM Livre WHERE Livre.id NOT IN (SELECT Emprunt.livre FROM Emprunt)) AS Livre " +
+                    "ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=Livre.ISBN;";
             Statement stmt2 = con.createStatement();
             ResultSet rs2 = stmt2.executeQuery(sql);
             while (rs2.next()) {
