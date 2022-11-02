@@ -40,10 +40,10 @@
                         <HBox layoutX="191.0" layoutY="76.0" prefHeight="35.0" prefWidth="220.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN :   " />
-                              <TextField id="restituion" prefHeight="24.0" prefWidth="186.0" />
+                              <TextField id="restituion" fx:id="restitutionISBN" prefHeight="24.0" prefWidth="186.0" />
                            </children>
                         </HBox>
-                        <Button layoutX="244.0" layoutY="134.0" mnemonicParsing="false" text="Rendre le livre" />
+                        <Button fx:id="boutonRendre" layoutX="244.0" layoutY="134.0" mnemonicParsing="false" onAction="#rendre" text="Rendre le livre" />
                         <Text id="empruntDisplay" layoutX="264.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Livre rendu" />
                      </children>
                   </AnchorPane>

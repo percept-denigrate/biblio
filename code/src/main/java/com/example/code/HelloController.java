@@ -46,6 +46,10 @@ public class HelloController {
     private Text rendreLivres;
 
     @FXML
+    private Button boutonRendre;
+    @FXML
+    private TextField restitutionISBN;
+    @FXML
     private TableColumn<Usager, String> categorieColonne;
     @FXML
     private TableColumn<Usager, String> emailColonne;
@@ -238,6 +242,9 @@ public class HelloController {
             con.close();
         }catch(Exception e){ System.err.println(e);}
     }
+
+    @FXML
+    public void rendre(ActionEvent event){}
 
     @FXML
     public void afficherUsagers(){
