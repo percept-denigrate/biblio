@@ -237,7 +237,9 @@ public class HelloController {
                     stmt3.setInt(2,id);
                     stmt3.setDate(3, Date.valueOf(LocalDate.now()));
                     stmt3.executeUpdate();
+                    inventaireE.getItems().clear();
                     inventaireEmpruntes();
+                    inventaireD.getItems().clear();
                     inventaireDispo();
                 }
             }
@@ -265,7 +267,9 @@ public class HelloController {
                 stmt2.setDate(3,debut);
                 stmt2.executeUpdate();
                 restitutionDisplay.setText("Livre rendu");
+                inventaireE.getItems().clear();
                 inventaireEmpruntes();
+                inventaireD.getItems().clear();
                 inventaireDispo();
             }else restitutionDisplay.setText("Vous n'avez pas emprunté de livre avec cet ISBN.");
 
@@ -279,13 +283,14 @@ public class HelloController {
         nomColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("nom"));
         emailColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("email"));
         categorieColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("categorie"));
+        listeRougeColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("listeRouge"));
         try{
             Connection con = DB.connecter();
-            String sql = "SELECT * FROM Usager;";
+            String sql = "SELECT *, CASE WHEN Usager.id IN (SELECT Usager.id FROM Usager JOIN Liste_rouge ON Usager.id=Liste_rouge.usager WHERE Liste_rouge.fin IS NULL GROUP BY Usager.id) THEN 'Oui' ELSE 'Non' END AS liste_rouge FROM Usager;";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                usagersTable.getItems().add(new Usager(rs.getString("prenom"),rs.getString("nom"),rs.getString("email"),rs.getString("categorie")));
+                usagersTable.getItems().add(new Usager(rs.getString("prenom"),rs.getString("nom"),rs.getString("email"),rs.getString("categorie"),rs.getString("liste_rouge")));
             }
             con.close();
         }catch(Exception e){ System.err.println(e);}

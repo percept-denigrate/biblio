@@ -6,12 +6,14 @@ public class Usager {
     private String prenom;
     private String email;
     private String categorie;
+    private String listeRouge;
 
-    public Usager(String prenom, String nom, String email, String categorie) {
+    public Usager(String prenom, String nom, String email, String categorie, String listeRouge) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.categorie = categorie;
+        this.listeRouge = listeRouge;
     }
 
     public String getNom() {
@@ -44,5 +46,13 @@ public class Usager {
 
     public void setCategorie(String categorie) {
         this.categorie = categorie;
+    }
+
+    public String getListeRouge() {
+        return listeRouge;
+    }
+
+    public void setListeRouge(String listeRouge) {
+        this.listeRouge = listeRouge;
     }
 }
