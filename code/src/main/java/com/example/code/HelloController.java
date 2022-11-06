@@ -22,6 +22,7 @@ public class HelloController {
     private Scene scene;
     private Parent root;
     private int id;
+    private Boolean admin;
     private int n = 0;
     private Boolean listeRouge;
 
@@ -128,8 +129,9 @@ public class HelloController {
                     categorie = rs2.getString("categorie");
                     id = rs2.getInt("id");
                 }
-                String appli = "appli.fxml"; //A changer en "appliBasique.fxml";
-                if(categorie.equals("admin")){
+                String appli = "appliBasique.fxml";
+                admin = categorie.equals("admin");
+                if(admin){
                     appli = "appli.fxml";
                     System.out.println("admin");
                 }
@@ -147,10 +149,12 @@ public class HelloController {
                 scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
-                afficherUsagers();
-                inventaireTous();
-                inventaireEmpruntes();
                 inventaireDispo();
+                inventaireTous();
+                if(admin) {
+                    afficherUsagers();
+                    inventaireEmpruntes();
+                }
             }
             con.close();
         } catch(Exception e){ System.err.println(e);}
@@ -237,10 +241,12 @@ public class HelloController {
                     stmt3.setInt(2,id);
                     stmt3.setDate(3, Date.valueOf(LocalDate.now()));
                     stmt3.executeUpdate();
-                    inventaireE.getItems().clear();
-                    inventaireEmpruntes();
                     inventaireD.getItems().clear();
                     inventaireDispo();
+                    if(admin) {
+                        inventaireE.getItems().clear();
+                        inventaireEmpruntes();
+                    }
                 }
             }
             con.close();
@@ -267,10 +273,12 @@ public class HelloController {
                 stmt2.setDate(3,debut);
                 stmt2.executeUpdate();
                 restitutionDisplay.setText("Livre rendu");
-                inventaireE.getItems().clear();
-                inventaireEmpruntes();
                 inventaireD.getItems().clear();
                 inventaireDispo();
+                if(admin) {
+                    inventaireE.getItems().clear();
+                    inventaireEmpruntes();
+                }
             }else restitutionDisplay.setText("Vous n'avez pas emprunté de livre avec cet ISBN.");
 
             con.close();
