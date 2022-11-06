@@ -208,15 +208,12 @@ public class HelloController {
         try {
             String ISBN = empruntISBN.getText();
             Connection con = DB.con();
-            String sql = "SELECT Livre.id as id FROM Livre WHERE ISBN=?;";
+            String sql = "SELECT COUNT(*) as c FROM Livre WHERE ISBN=?;";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, ISBN);
             ResultSet rs = stmt.executeQuery();
-            Vector<Integer> idListe = new Vector<Integer>();  //liste des id de livres du bon ISBN
-            while (rs.next()) {
-                idListe.add(rs.getInt("id"));
-            }
-            if(idListe.size()==0){
+            rs.next();
+            if(rs.getInt("c")==0){
                 empruntDisplay.setText("Cette édition n'est pas disponible dans la bibliothèque.");
             }else{
                 sql = "SELECT Livre.id FROM Edition JOIN " +
