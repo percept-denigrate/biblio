@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DB {
-    public static Connection connecter(){
+    public static Connection con(){
         try {
             String jdbcURL = "jdbc:mysql://localhost:3306/Biblio";
             String username = "root";

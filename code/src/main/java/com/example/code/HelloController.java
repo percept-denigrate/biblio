@@ -108,7 +108,7 @@ public class HelloController {
     public void connecter(ActionEvent event) throws IOException {
         email = emailField.getText();
         try {
-            Connection con = DB.connecter();
+            Connection con = DB.con();
             String sql = "SELECT COUNT(*) as C FROM Usager WHERE email=?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
@@ -117,7 +117,7 @@ public class HelloController {
             while(rs.next()){
                 c = rs.getInt("C");
             }
-            if(c==0){
+            if(c==0){  //si adresse pas dans la BDD
                 loginText.setText("Cette adresse n'est pas enregistrée.");
             }else{
                 sql = "SELECT Usager.id as id,categorie FROM Usager WHERE email=?";
@@ -164,7 +164,7 @@ public class HelloController {
     @FXML
     public void afficherNombreEmprunts()throws IOException{
         try{
-            Connection con = DB.connecter();
+            Connection con = DB.con();
             String sql = "SELECT COUNT(*) as c FROM Usager JOIN Emprunt ON Usager.id=Emprunt.usager WHERE Emprunt.fin IS NULL AND Emprunt.usager=?;";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1,id);
@@ -187,7 +187,7 @@ public class HelloController {
 
     private Boolean estListeRouge() {
         try {
-            Connection con = DB.connecter();
+            Connection con = DB.con();
             String sql = "SELECT COUNT(*) as c FROM Usager JOIN Liste_rouge ON Usager.id=Liste_rouge.usager WHERE Usager.id=? AND Liste_rouge.fin IS NULL;";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1,id);
@@ -203,16 +203,16 @@ public class HelloController {
 
     @FXML
     public void emprunter(ActionEvent event){
-        if(n==0) return;
+        if(n==0) return;  //trop de livres empruntés
         if(listeRouge) return;
         try {
             String ISBN = empruntISBN.getText();
-            Connection con = DB.connecter();
+            Connection con = DB.con();
             String sql = "SELECT Livre.id as id FROM Livre WHERE ISBN=?;";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, ISBN);
             ResultSet rs = stmt.executeQuery();
-            Vector<Integer> idListe = new Vector<Integer>();
+            Vector<Integer> idListe = new Vector<Integer>();  //liste des id de livres du bon ISBN
             while (rs.next()) {
                 idListe.add(rs.getInt("id"));
             }
@@ -257,13 +257,13 @@ public class HelloController {
     public void rendre(ActionEvent event){
         long ISBN = Long.parseLong(restitutionISBN.getText());
         try {
-            Connection con = DB.connecter();
+            Connection con = DB.con();
             String sql = "SELECT * FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre WHERE Emprunt.usager=? AND Livre.ISBN=? AND Emprunt.fin IS NULL;";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1,id);
             stmt.setLong(2,ISBN);
             ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
+            if(rs.next()){  //si livre emprunté
                 int idLivre = rs.getInt("id");
                 Date debut = rs.getDate("debut");
                 sql = "UPDATE Emprunt SET fin=? WHERE livre=? AND debut=?;";
@@ -293,7 +293,7 @@ public class HelloController {
         categorieColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("categorie"));
         listeRougeColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("listeRouge"));
         try{
-            Connection con = DB.connecter();
+            Connection con = DB.con();
             String sql = "SELECT *, CASE WHEN Usager.id IN (SELECT Usager.id FROM Usager JOIN Liste_rouge ON Usager.id=Liste_rouge.usager WHERE Liste_rouge.fin IS NULL GROUP BY Usager.id) THEN 'Oui' ELSE 'Non' END AS liste_rouge FROM Usager;";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -312,7 +312,7 @@ public class HelloController {
         editionT.setCellValueFactory(new PropertyValueFactory<Livre, String>("edition"));
         ISBNT.setCellValueFactory(new PropertyValueFactory<Livre, Long>("ISBN"));
         try{
-            Connection con = DB.connecter();
+            Connection con = DB.con();
             String sql = "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN Livre ON Auteur.id=Ecriture.Auteur AND Ecriture.oeuvre=Oeuvre.id AND Oeuvre.id=Edition.oeuvre AND Edition.ISBN=Livre.ISBN;";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -332,7 +332,7 @@ public class HelloController {
         ISBNE.setCellValueFactory(new PropertyValueFactory<Livre, Long>("ISBN"));
         emprunteurE.setCellValueFactory(new PropertyValueFactory<Livre, String>("emprunteur"));
         try {
-            Connection con = DB.connecter();
+            Connection con = DB.con();
             String sql =
                     "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee,Usager.prenom as usager_prenom,Usager.nom as usager_nom " +
                     "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN Emprunt JOIN Usager JOIN " +
@@ -355,7 +355,7 @@ public class HelloController {
         editionD.setCellValueFactory(new PropertyValueFactory<Livre, String>("edition"));
         ISBND.setCellValueFactory(new PropertyValueFactory<Livre, Long>("ISBN"));
         try {
-            Connection con = DB.connecter();
+            Connection con = DB.con();
             String sql =  //livres empruntes et rendus
                     "SELECT Auteur.prenom,Auteur.nom,Oeuvre.titre,Oeuvre.date,Edition.ISBN,Edition.editeur,Edition.annee " +
                     "FROM Auteur JOIN Ecriture JOIN Oeuvre JOIN Edition JOIN " +
