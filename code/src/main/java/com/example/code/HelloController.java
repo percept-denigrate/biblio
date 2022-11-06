@@ -219,25 +219,17 @@ public class HelloController {
             if(idListe.size()==0){
                 empruntDisplay.setText("Cette édition n'est pas disponible dans la bibliothèque.");
             }else{
-                int idDispo = -1;
-                for(int i = 0; i<idListe.size(); i++){
-                    sql = "SELECT COUNT(*) as c FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre WHERE id=? AND fin IS NULL;";
-                    PreparedStatement stmt2 = con.prepareStatement(sql);
-                    stmt2.setInt(1, idListe.get(i));
-                    ResultSet rs2 = stmt2.executeQuery();
-                    rs2.next();
-                    if(rs2.getInt("c") == 0){
-                        idDispo = idListe.get(i);
-                        break;
-                    }
-                }
-                if(idDispo == -1)
-                    empruntDisplay.setText("Tous les livres de cette édition sont déjà empruntés.");
-                else{
+                sql = "SELECT Livre.id FROM Edition JOIN " +
+                        "((SELECT Livre.id,Livre.ISBN FROM Emprunt JOIN Livre ON Emprunt.livre=Livre.id GROUP BY Livre.id HAVING COUNT(Emprunt.fin)=COUNT(*)) UNION (SELECT * FROM Livre WHERE Livre.id NOT IN(SELECT Emprunt.livre FROM Emprunt))) AS Livre " +
+                        "ON Edition.ISBN=Livre.ISBN WHERE Edition.ISBN=?;";
+                PreparedStatement stmt2 = con.prepareStatement(sql);
+                stmt2.setLong(1, Long.parseLong(ISBN));
+                ResultSet rs2 = stmt2.executeQuery();
+                if(rs2.next()){
                     empruntDisplay.setText("Emprunt validé");
                     sql = "INSERT INTO Emprunt VALUES(?,?,?,NULL);";
                     PreparedStatement stmt3 = con.prepareStatement(sql);
-                    stmt3.setInt(1,idDispo);
+                    stmt3.setInt(1,rs2.getInt("id"));
                     stmt3.setInt(2,id);
                     stmt3.setDate(3, Date.valueOf(LocalDate.now()));
                     stmt3.executeUpdate();
@@ -247,7 +239,8 @@ public class HelloController {
                         inventaireE.getItems().clear();
                         inventaireEmpruntes();
                     }
-                }
+                } else
+                    empruntDisplay.setText("Tous les livres de cette édition sont déjà empruntés.");
             }
             con.close();
         }catch(Exception e){ System.err.println(e);}
