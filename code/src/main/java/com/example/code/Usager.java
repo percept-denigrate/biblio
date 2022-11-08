@@ -57,4 +57,12 @@ public class Usager {
     public void setListeRouge(String listeRouge) {
         this.listeRouge = listeRouge;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

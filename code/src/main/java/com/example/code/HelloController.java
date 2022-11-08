@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -25,6 +26,7 @@ public class HelloController {
     private Boolean admin;
     private int n = 0;
     private Boolean listeRouge;
+    private int idUsager;
 
     @FXML
     private TextField emailField;
@@ -63,11 +65,11 @@ public class HelloController {
     @FXML
     private TableColumn<Usager, String> prenomColonne;
     @FXML
-    private TableColumn<?, ?> idColonne;
+    private TableColumn<Usager, Integer> idColonne;
     @FXML
     private TableView<Usager> usagersTable;
     @FXML
-    private Button bouttonListerouge;
+    private Button boutonListerouge;
 
     @FXML
     private TableColumn<Livre, String> editionT;
@@ -286,7 +288,7 @@ public class HelloController {
         emailColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("email"));
         categorieColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("categorie"));
         listeRougeColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("listeRouge"));
-        idColonne.setCellValueFactory(new PropertyValueFactory<Usager, int>("id"));
+        idColonne.setCellValueFactory(new PropertyValueFactory<Usager, Integer>("id"));
         try{
             Connection con = DB.con();
             String sql = "SELECT *, CASE WHEN Usager.id IN (SELECT Usager.id FROM Usager JOIN Liste_rouge ON Usager.id=Liste_rouge.usager WHERE Liste_rouge.fin IS NULL GROUP BY Usager.id) THEN 'Oui' ELSE 'Non' END AS liste_rouge FROM Usager;";
@@ -296,6 +298,39 @@ public class HelloController {
                 usagersTable.getItems().add(new Usager(rs.getString("prenom"),rs.getString("nom"),rs.getString("email"),rs.getString("categorie"),rs.getString("liste_rouge"),rs.getInt("id")));
             }
             con.close();
+        }catch(Exception e){ System.err.println(e);}
+    }
+
+    @FXML
+    public void usagerClique(MouseEvent mouseEvent) {
+        Usager usager = usagersTable.getSelectionModel().getSelectedItem();
+        idUsager = usager.getId();
+    }
+
+    @FXML
+    void placerListeRouge(ActionEvent event) {
+        try{
+            Connection con = DB.con();
+            String sql = "SELECT COUNT(*) as c FROM Usager JOIN Liste_rouge ON Usager.id=Liste_rouge.usager WHERE Usager.id=? AND Liste_rouge.fin IS NULL;";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1,idUsager);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            if(rs.getInt("c")==1){  //en liste rouge
+                sql = "UPDATE Liste_rouge SET fin=? WHERE usager=?;";
+                PreparedStatement stmt2 = con.prepareStatement(sql);
+                stmt2.setDate(1,Date.valueOf(LocalDate.now()));
+                stmt2.setInt(2,idUsager);
+                stmt2.executeUpdate();
+            }else{
+                sql = "INSERT INTO Liste_rouge VALUES(?,?,NULL);";
+                PreparedStatement stmt2 = con.prepareStatement(sql);
+                stmt2.setInt(1,idUsager);
+                stmt2.setDate(2,Date.valueOf(LocalDate.now()));
+                stmt2.executeUpdate();
+            }
+            usagersTable.getItems().clear();
+            afficherUsagers();
         }catch(Exception e){ System.err.println(e);}
     }
 

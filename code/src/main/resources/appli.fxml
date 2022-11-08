@@ -53,7 +53,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="usagersTable" prefHeight="332.0" prefWidth="606.0">
+                        <TableView fx:id="usagersTable" onMouseClicked="#usagerClique" prefHeight="332.0" prefWidth="606.0">
                           <columns>
                             <TableColumn fx:id="prenomColonne" editable="false" prefWidth="100.0" text="Prénom" />
                             <TableColumn fx:id="nomColonne" editable="false" prefWidth="39.0" text="Nom" />
@@ -66,7 +66,7 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <Button fx:id="bouttonListerouge" layoutX="187.0" layoutY="332.0" mnemonicParsing="false" text="Placer ou retirer de la liste rouge" />
+                        <Button fx:id="boutonListerouge" layoutX="187.0" layoutY="332.0" mnemonicParsing="false" onAction="#placerListeRouge" text="Placer ou retirer de la liste rouge" />
                      </children></AnchorPane>
               </content>
             </Tab>
