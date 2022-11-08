@@ -63,6 +63,8 @@ public class HelloController {
     @FXML
     private TableColumn<Usager, String> prenomColonne;
     @FXML
+    private TableColumn<?, ?> idColonne;
+    @FXML
     private TableView<Usager> usagersTable;
 
     @FXML
@@ -282,13 +284,14 @@ public class HelloController {
         emailColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("email"));
         categorieColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("categorie"));
         listeRougeColonne.setCellValueFactory(new PropertyValueFactory<Usager, String>("listeRouge"));
+        idColonne.setCellValueFactory(new PropertyValueFactory<Usager, int>("id"));
         try{
             Connection con = DB.con();
             String sql = "SELECT *, CASE WHEN Usager.id IN (SELECT Usager.id FROM Usager JOIN Liste_rouge ON Usager.id=Liste_rouge.usager WHERE Liste_rouge.fin IS NULL GROUP BY Usager.id) THEN 'Oui' ELSE 'Non' END AS liste_rouge FROM Usager;";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                usagersTable.getItems().add(new Usager(rs.getString("prenom"),rs.getString("nom"),rs.getString("email"),rs.getString("categorie"),rs.getString("liste_rouge")));
+                usagersTable.getItems().add(new Usager(rs.getString("prenom"),rs.getString("nom"),rs.getString("email"),rs.getString("categorie"),rs.getString("liste_rouge"),rs.getInt("id")));
             }
             con.close();
         }catch(Exception e){ System.err.println(e);}

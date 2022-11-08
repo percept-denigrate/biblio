@@ -7,13 +7,15 @@ public class Usager {
     private String email;
     private String categorie;
     private String listeRouge;
+    private int id;
 
-    public Usager(String prenom, String nom, String email, String categorie, String listeRouge) {
+    public Usager(String prenom, String nom, String email, String categorie, String listeRouge, int id) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.categorie = categorie;
         this.listeRouge = listeRouge;
+        this.id = id;
     }
 
     public String getNom() {
