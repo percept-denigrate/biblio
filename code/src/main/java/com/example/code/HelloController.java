@@ -115,32 +115,26 @@ public class HelloController {
         email = emailField.getText();
         try {
             Connection con = DB.con();
-            String sql = "SELECT COUNT(*) as C FROM Usager WHERE email=?";
+            String sql = "SELECT COUNT(*) as c FROM Usager WHERE email=?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
-            int c = 0;
-            while(rs.next()){
-                c = rs.getInt("C");
-            }
-            if(c==0){  //si adresse pas dans la BDD
+            rs.next();
+            if(rs.getInt("c")==0){  //si adresse pas dans la BDD
                 loginText.setText("Cette adresse n'est pas enregistrée.");
             }else{
                 sql = "SELECT Usager.id as id,categorie FROM Usager WHERE email=?";
                 PreparedStatement stmt2 = con.prepareStatement(sql);
                 stmt2.setString(1, email);
                 ResultSet rs2 = stmt2.executeQuery();
-                String categorie = "";
-                while (rs2.next()){
-                    categorie = rs2.getString("categorie");
-                    id = rs2.getInt("id");
-                }
+                rs2.next();
+                String categorie = rs2.getString("categorie");
+                id = rs2.getInt("id");
+
                 String appli = "appliBasique.fxml";
                 admin = categorie.equals("admin");
-                if(admin){
+                if(admin)
                     appli = "appli.fxml";
-                    System.out.println("admin");
-                }
                 FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(appli));
                 loader.setController(this);
                 Parent root = (Parent) loader.load();
