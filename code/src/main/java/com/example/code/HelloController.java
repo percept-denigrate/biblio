@@ -66,6 +66,8 @@ public class HelloController {
     private TableColumn<?, ?> idColonne;
     @FXML
     private TableView<Usager> usagersTable;
+    @FXML
+    private Button bouttonListerouge;
 
     @FXML
     private TableColumn<Livre, String> editionT;
