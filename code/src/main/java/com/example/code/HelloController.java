@@ -245,13 +245,13 @@ public class HelloController {
 
     @FXML
     public void rendre(ActionEvent event){
-        long ISBN = Long.parseLong(restitutionISBN.getText());
+        String ISBN = restitutionISBN.getText();
         try {
             Connection con = DB.con();
             String sql = "SELECT * FROM Livre JOIN Emprunt ON Livre.id=Emprunt.livre WHERE Emprunt.usager=? AND Livre.ISBN=? AND Emprunt.fin IS NULL;";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1,id);
-            stmt.setLong(2,ISBN);
+            stmt.setString(2,ISBN);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){  //si livre emprunté
                 int idLivre = rs.getInt("id");
