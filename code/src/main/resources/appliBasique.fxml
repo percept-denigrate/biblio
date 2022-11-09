@@ -25,10 +25,10 @@
                            </children>
                         </HBox>
                         <Button fx:id="boutonEmprunter" layoutX="235.0" layoutY="173.0" mnemonicParsing="false" onAction="#emprunter" text="Emprunter le livre" />
-                        <Text fx:id="empruntDisplay" layoutX="291.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <Text fx:id="rendreLivres" layoutX="137.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rendez des livres pour pouvoir en emprunter plus." />
-                        <Text fx:id="empruntNombre" layoutX="192.0" layoutY="46.0" text="Vous pouvez emprunter n livre(s)." />
-                        <Text fx:id="texteListeRouge" layoutX="71.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
+                        <Text fx:id="empruntDisplay" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="606.0" />
+                        <Text fx:id="rendreLivres" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rendez des livres pour pouvoir en emprunter plus." textAlignment="CENTER" wrappingWidth="606.0" />
+                        <Text fx:id="empruntNombre" layoutX="-1.0" layoutY="54.0" text="Vous pouvez emprunter n livre(s)." textAlignment="CENTER" wrappingWidth="606.0" />
+                        <Text fx:id="texteListeRouge" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="606.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -44,7 +44,7 @@
                            </children>
                         </HBox>
                         <Button fx:id="boutonRendre" layoutX="244.0" layoutY="134.0" mnemonicParsing="false" onAction="#rendre" text="Rendre le livre" />
-                        <Text id="empruntDisplay" fx:id="restitutionDisplay" layoutX="264.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Text id="empruntDisplay" fx:id="restitutionDisplay" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="606.0" />
                      </children>
                   </AnchorPane>
             </content>
