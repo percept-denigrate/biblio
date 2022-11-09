@@ -372,6 +372,7 @@ public class HelloController {
         }catch(Exception e){ System.err.println(e);}
     }
 
+    @FXML
     public void inventaireDispo(){
         titreD.setCellValueFactory(new PropertyValueFactory<Livre, String>("titre"));
         auteurD.setCellValueFactory(new PropertyValueFactory<Livre, String>("auteur"));
@@ -393,5 +394,15 @@ public class HelloController {
             }
             con.close();
         }catch(Exception e){ System.err.println(e);}
+    }
+
+    @FXML
+    void retourLogin(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("login.fxml"));
+        Parent root = (Parent) loader.load();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

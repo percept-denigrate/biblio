@@ -102,5 +102,6 @@
             </Tab>
         </tabs>
       </TabPane>
+      <Button layoutX="475.0" mnemonicParsing="false" onAction="#retourLogin" text="Retour à l'accueil" />
    </children>
 </AnchorPane>
